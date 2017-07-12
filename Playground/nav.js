@@ -1,72 +1,82 @@
-console.log('Hello');
+console.log("Hey");
 
-// Global Event
+var navTag = "nav",
+    navItemTag = "a";
 
-(function (document, window, index) {
+function Nav(sel, menu) {
+    this.navEl = document.querySelector(sel);
+    this.makeMenu(menu, null);
+}
 
-    var defaults = {
-        direction: 0,
-        animate: true,
-        transition: 500      
+Nav.prototype.makeMenu = function(menu, root) {
+    console.log(menu);
+
+    // Create back button
+    if (root) {
+        var backButton = document.createElement(navItemTag);
+        backButton.innerHTML = "back";
+
+        backButton.addEventListener("click", this.makeMenu(root, null), false);
+
+        this.navEl.appendChild(backButton);
     }
 
-    var navBar = function(el, options) {
-        var navEl = document.querySelector(el);
-        document.querySelector();
+    // Create links
+    for (var i = 0; i < menu.length; i++) {
+        var navItem = document.createElement(navItemTag);
+        var navObject = menu[i];
+        navItem.innerHTML = navObject.name;
+
+        var action;
+        if (action = navObject.action) {
+            navItem.addEventListener("click", action, false); 
+        }
+        
+        var href;
+        if (href = navObject.href) {
+            navItem.href = href;
+        }
+
+        var subMenu;
+        if (subMenu = navObject.menu) {
+            navItem.addEventListener("click", this.makeMenu(subMenu, menu), false);
+        }
+
+        this.navEl.appendChild(navItem);
     }
+}
 
-    // constructor
-    function Nav(navElement, menu) {
-        this.nav = navElement;
-    };
 
-    Nav.prototype.drawMenu = function(menu) {
-        // use menu.contents	
-    };
 
-    function Menu(contents) {
-        this.contents = [];
-    }
-
-    window.onload = function() {
-        console.log("hello!");
-        var menu = [
-            ];
-        var nav = navBar("nav", {
-            direction: 0,
+window.onload = function() {
+    var menu = [
+        {
+            name: 'Collections',
             menu: [
                 {
-                    name: 'Collections',
-                    contents: [
-                        {
-                            name: 'Industrial',
-                            link: '/'
-                        },
-                        {
-                            name: 'Residential',
-                            link: '/'
-                        },
-                        {
-                            name: 'Commercial',
-                            link: '/'
-                        }
-                    ]
+                    name: 'Industrial',
+                    href: '/'
                 },
                 {
-                    name: 'Test',
-                    action: function() {
-                        console.log('action!');
-                    }
+                    name: 'Residential',
+                    href: '/'
                 },
                 {
-                    name: 'Press',
-                    link: '/'
+                    name: 'Commercial',
+                    href: '/'
                 }
-            ],
-            animate: true,
-            transition: 284,
-            init: function() {
-                console.log('init!');
+            ]
+        },
+        {
+            name: 'Test',
+            action: function() {
+                console.log('action!');
             }
-        });
-    }
+        },
+        {
+            name: 'Press',
+            href: '/'
+        }
+    ];
+    var nav = new Nav("nav", menu);
+}
