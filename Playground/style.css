@@ -2,28 +2,45 @@ body {
     width: 100%;
 }
 
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+/* Custom settings */
+nav {
+	margin-left: 100px;
+	margin-top: 100px;
+}
+
 nav {
 	display: inline-block;
-	background: #aaa;
+	position: relative;
+
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+	color: black;
 }
 
-nav.left {
+nav a {
+	display: inline;
+	margin-right: 20px;
+	cursor: pointer;
 
 }
 
-nav.right {
-
+nav a:last-child {
+	margin-right: 0;
 }
 
 nav div {
-	display: inline;
-	margin-right: 20px;
+	display: block;
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	background: #000;
+	left: -20px;
+	top: 0;
+	
+	cursor: pointer;
 }
 
-nav div:last-child {
-	margin-right: 0;
-}
-
-nav div.static {
-	margin-right: 0;
-}
