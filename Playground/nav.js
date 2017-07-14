@@ -1,115 +1,195 @@
 console.log("START");
 
+// TODO: Refactor variable conventions to differentiate DOM Objects
+
 function Nav(sel, menu) {
 
-    this.root = new Menu('root', menu); // Stores the root Menu instance
-    this.current = this.root; // Stores the current Menu instance
+	this.options = {
+        animationLength: 200
+    };
 
-    this.container = document.querySelector(sel);
+    this.rootMenu = new Menu("root", menu); 
+    this.currentMenu = this.root; 
 
-	// Create back button
-    this.back = document.createElement('div');
-	this.back.setAttribute('class', 'hidden');
-	this.container.append(this.back);
-	
+    this.Container = document.querySelector(sel);
+
+	this.Spans = new Object[3] {
+    	objectWithClass(
+			createDOMObject(this.container,
+			"span"), "right"),
+    	objectWithClass(
+			createDOMObject(this.container,
+			"span"), "middle"),
+    	objectWithClass(
+			createDOMObject(this.container,
+			"span"), "left")
+	} 
+
+    this.BackButton = objectWithClass(
+						createDOMObject(this.container,
+						"div"), "hidden");
+
 	this.makeMenu(this.root);
 }
 
-Nav.prototype.handleEvent = function(e) {
-	this.makeMenu(this.current.mother);
-}
+// Create menu
+Nav.prototype.makeMenu = function(menu, direction) {
 
-Nav.prototype.makeMenu = function(menu) {
+    // direction:
+    // 1 means deeper (in from right)
+    // 0 means shallower (in from left)
 
-    // Remove old elements from DOM tree 
-    for (var i = 0; i < this.current.children.length; i++) 
-        this.current.children[i].el.remove();
+	// Redirect menu pointer
+	this.currentMenu = menu;
 
-	this.current = menu;
+    // Create new menu items
+	for (var i = 0; i < this.currentMenu.children.length; i++) {
+		var child = this.currentMenu.children[i];
 
-	for (var i = 0; i < this.current.children.length; i++) {
-		var item = this.current.children[i];
-		this.container.append(item.el);
-
-		if (item.children) {
-			item.nav = this;
-			item.el.addEventListener('click', item, false);
+		// Child Menu eevent handler
+		if (child.children) {
+			child.nav = this;
+			child.DOMObject.addEventListener("click", child, false);
 		}
+
+		this.Spans[0].append(child.DOMObject);
 	}
 
-	if (this.current.mother) {
-		this.back.addEventListener('click', this, false);
-		this.back.setAttribute('class', 'visible');
+	this.addClass(this.Spans[0], "transition");
+	this.addClass(this.Spans[1], "transition");
+
+	this.swapClass
+
+	// If supermenu exists
+	if (this.currentMenu.parentMenu) {
+		// Show back button
+		this.BackButton.addEventListener("click", this, false);
+		this.BackButton.className = "visible";
 	} else {
-		this.back.removeEventListener('click', this, false);
-		this.back.setAttribute('class', 'hidden');
+		// Hide back button
+		this.BackButton.removeEventListener("click", this, false);
+		this.BackButton.className = "hidden";
+	}
+  
+    // swap oldMenu and newMenu 
+    var current = this.newMenu;
+    this.newMenu = this.oldMenu;
+    this.oldMenu = current;
+
+    console.log(this.oldMenu);
+    console.log(this.newMenu);
+
+    var nav = this; // scope workaround
+    setTimeout(function() {
+
+        nav.newMenu.setAttribute("class", "new");
+
+        while (nav.newMenu.hasChildNodes())
+            nav.newMenu.removeChild(nav.newMenu.firstChild); 
+
+    }, this.options.animationLength);
+}
+
+Nav.prototype.createDOMObject = function(Container, tag) {
+    var DOMObject = document.createElement(tag);
+    Container.append(DOMObject);
+    return DOMObject;
+}
+
+Nav.prototype.objectWithClass = function(DOMObject, className) {
+    DOMObject.className = className;
+    return DOMObject;
+}
+
+Nav.prototype.addClass = function(DOMObject, pushClass) {
+	if (DOMObject.classList)
+		DOMObject.classList.add(pushClass);
+	else if (!hasClass(DOMObject, pushClass)) DOMObject.className += " " + pushClass;
+}
+
+Nav.prototype.removeClass = function(DOMObject, popClass) {
+	if (DOMObject.classList)
+		DOMObject.classList.remove(pushClass);
+	else if (hasClass(DOMObject, pushClass)) {
+		var reg = new RegExp('(\\s|^)' + pushClass + '(\\s|$)');
+		DOMObject.className=DOMObject.className.replace(reg, ' ');
 	}
 }
 
-function NavItem(name) {
-	this.tag = 'a';
-    this.el = document.createElement(this.tag);
-    this.el.innerHTML = name;
-	this.name = name;
+Nav.prototype.hasClass = function(DOMObject, queryClass) {
+	if (DOMObject.classList)
+		return DOMObject.classList.contains(pushClass);
+	else
+		return !!DOMObject.className.match(new RegExp('(\\s|^)' + pushClass + '(\\s|$)'));
 }
 
-// See: https://stackoverflow.com/questions/3785258/how-to-remove-dom-elements-without-memory-leaks
-// DOM keeps all nodes, best practice is to reuse them
-
-NavItem.prototype.setIcon = function(src) {
-    // remove text and replace with icon
-    // TODO: CSS
+// Click event handler for back button
+Nav.prototype.handleEvent = function(e) {
+	this.makeMenu(this.currentMenu.parentMenu, 0);
 }
 
 
 Menu.prototype = new NavItem();
-function Menu(name, menu, makeMenu) {
+function Menu(name, menu) {
     NavItem.call(this, name);
 
+	// new Link("INVALID MENU", "")
+
     this.children = []; // Array of NavItem
-	this.mother = null;
+	this.parentMenu = null;
 
     for (var i = 0; i < menu.length; i++) {
+
         var item = menu[i];
         name = item.name;
 
         var href;
-        if (href = item.href) {
-            this.children.push(new Link(name, href)); 
-		}
-	
         var action;
-        if (action = item.action) {
-            this.children.push(new Action(name, action));
-		}
-	
         var children;
+
+        if (href = item.href)
+            this.children.push(new Link(name, href)); 
+	
+        if (action = item.action)
+            this.children.push(new Action(name, action));
+	
         if (children = item.children) {
             item = new Menu(name, children, makeMenu);
-			item.mother = this;
+			item.parentMenu = this;
 			this.children.push(item);
 		}
     }
 }
 
 Menu.prototype.handleEvent = function(e) {
-	this.nav.makeMenu(this);
+	this.nav.makeMenu(this, 1);
 }
+
+function NavItem(name) {
+	this.tag = 'a';
+	this.name = name;
+
+    this.DOMObject = document.createElement(this.tag);
+    this.DOMObject.innerHTML = name;
+}
+
+NavItem.prototype.setIcon = function(src) {
+    this.DOMObject.innerHTML = "";
+}
+
 
 Link.prototype = new NavItem();
 function Link(name, href) {
     NavItem.call(this, name);
-
-    this.el.href = href;
+    this.DOMObject.href = href;
 }
 
 Action.prototype = new NavItem();
 function Action(name, action) {
     NavItem.call(this, name);
 
-    this.el.addEventListener("click", action, false);
+    this.DOMObject.addEventListener("click", action, false);
 }
-
 
 window.onload = function() {
     var menu = [

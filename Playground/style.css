@@ -11,36 +11,69 @@ a {
 nav {
 	margin-left: 100px;
 	margin-top: 100px;
-}
-
-nav {
-	display: inline-block;
-	position: relative;
-
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+	text-transform: uppercase;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: 12px;
+	font-weight: 700;
 	color: black;
 }
 
-nav a {
-	display: inline;
-	margin-right: 20px;
-	cursor: pointer;
+/* TODO: Consolidate transitions and common styles */
+/* TODO: MAKE YOUR HTML ELEMENTS MORE DESCRIPTIVE: S-E-O!! */
 
+nav {
+	display: block;
+	position: relative;
+    white-space: nowrap;
+
+	transition: 0.2s width ease;
 }
 
-nav a:last-child {
+nav span {
+    position: absolute;
+	display: inline
+	left: 0;
+}
+
+/* THE KEY TO GOOD TRANSITIONS: */
+/* THE ABILITY TO TURN OFF TRANSITIONS */
+nav span.transition {
+    transition: 0.2s left ease,
+                0.2s opacity ease;
+}
+
+nav span.middle { left: 0; }
+nav span.left { left: -20px; }
+nav span.right { left: 20px; }
+
+nav span a {
+	display: inline;
+	cursor: pointer;
+	margin-right: 20px;
+}
+
+nav span a:last-child {
 	margin-right: 0;
 }
 
+/* BACK BUTTON */
 nav div {
 	display: block;
+	cursor: pointer;
 	position: absolute;
+	background: url('ui/arrow_left.svg');
+	background-size: 20px 20px;
 	height: 20px;
 	width: 20px;
-	background: #000;
-	left: -20px;
-	top: 0;
+	left: -30px;
+	top: 50%;
+	transform: translate(0, -50%);
 	
-	cursor: pointer;
+	transition: 0.2s left ease,
+				0.2s opacity ease;
 }
 
+nav div.hidden {
+	left: -10px;
+	opacity: 0;
+}
