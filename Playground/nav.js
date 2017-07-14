@@ -9,31 +9,32 @@ function Nav(sel, menu) {
     };
 
     this.rootMenu = new Menu("root", menu); 
-    this.currentMenu = this.root; 
+    this.currentMenu = this.rootMenu; 
 
     this.Container = document.querySelector(sel);
 
-    this.Spans = new Object[3] {
-        objectWithClass(
-            createDOMObject(this.container,
+    this.Spans = [
+        this.objectWithClass(
+            this.createDOMObject(this.Container,
             "span"), "right"),
-        objectWithClass(
-            createDOMObject(this.container,
+        this.objectWithClass(
+            this.createDOMObject(this.Container,
             "span"), "middle"),
-        objectWithClass(
-            createDOMObject(this.container,
+        this.objectWithClass(
+            this.createDOMObject(this.Container,
             "span"), "left")
-    } 
+    ];
 
-    this.BackButton = objectWithClass(
-                        createDOMObject(this.container,
-                        "div"), "hidden");
+    this.BackButton = this.objectWithClass(
+            this.createDOMObject(this.Container,
+            "div"), "hidden");
 
-    this.makeMenu(this.root);
+    console.log(this.rootMenu);
+    this.makeMenu(this.rootMenu, 1);
 }
 
 // Create menu
-Nav.prototype.makeMenu = function(menu, direction) {
+Nav.prototype.makeMenu = function(menu, deeper) {
 
     // direction:
     // 1 means deeper (in from right)
@@ -55,12 +56,52 @@ Nav.prototype.makeMenu = function(menu, direction) {
         this.Spans[0].append(child.DOMObject);
     }
 
-    this.addClass(this.Spans[0], "transition");
-    this.addClass(this.Spans[1], "transition");
+    var width = this.Spans[0].getBoundingClientRect().width;
+    this.Container.style.width = width+"px";
+       
+    // Menu transition
 
-    this.swapClass
+    if (deeper) { 
+        // Transition RIGHT & MIDDLE
+        this.addClass(this.Spans[0], "transition");
+        this.addClass(this.Spans[1], "transition");
 
-    // If supermenu exists
+        // RIGHT -> MIDDLE (Transition)
+        this.removeClass(this.Spans[0], "right");
+        this.addClass(this.Spans[0], "middle");
+
+        // MIDDLE -> LEFT (Transition)
+        this.removeClass(this.Spans[1], "middle");
+        this.addClass(this.Spans[1], "left");
+
+        // LEFT -> RIGHT
+        this.removeClass(this.Spans[2], "left");
+        this.addClass(this.Spans[2], "right"); 
+
+    } else {
+
+        // Transition MIDDLE & LEFT
+        this.removeClass(this.Spans[1], "transition");
+        this.removeClass(this.Spans[2], "transition");
+
+        // RIGHT -> MIDDLE (Transition)
+        this.removeClass(this.Spans[0], "right");
+        this.addClass(this.Spans[0], "middle");
+
+        // MIDDLE -> LEFT (Transition)
+        this.removeClass(this.Spans[1], "middle");
+        this.addClass(this.Spans[1], "left");
+
+        // LEFT -> RIGHT
+        this.removeClass(this.Spans[2], "left");
+        this.addClass(this.Spans[2], "right");  
+    }
+
+    // Clear right span
+    while (this.Spans[2].hasChildNodes())
+        this.Spans[2].removeChild(this.Spans[2].firstChild); 
+
+    // Make Back Button
     if (this.currentMenu.parentMenu) {
         // Show back button
         this.BackButton.addEventListener("click", this, false);
@@ -70,24 +111,14 @@ Nav.prototype.makeMenu = function(menu, direction) {
         this.BackButton.removeEventListener("click", this, false);
         this.BackButton.className = "hidden";
     }
-  
-    // swap oldMenu and newMenu 
-    var current = this.newMenu;
-    this.newMenu = this.oldMenu;
-    this.oldMenu = current;
 
-    console.log(this.oldMenu);
-    console.log(this.newMenu);
+    var SpanMiddle = this.Spans[0];
+    var SpanLeft   = this.Spans[1];
+    var SpanRight  = this.Spans[2];
 
-    var nav = this; // scope workaround
-    setTimeout(function() {
-
-        nav.newMenu.setAttribute("class", "new");
-
-        while (nav.newMenu.hasChildNodes())
-            nav.newMenu.removeChild(nav.newMenu.firstChild); 
-
-    }, this.options.animationLength);
+    this.Spans[0] = SpanRight;
+    this.Spans[1] = SpanMiddle;
+    this.Spans[2] = SpanLeft;
 }
 
 Nav.prototype.createDOMObject = function(Container, tag) {
@@ -109,9 +140,9 @@ Nav.prototype.addClass = function(DOMObject, pushClass) {
 
 Nav.prototype.removeClass = function(DOMObject, popClass) {
     if (DOMObject.classList)
-        DOMObject.classList.remove(pushClass);
-    else if (hasClass(DOMObject, pushClass)) {
-        var reg = new RegExp('(\\s|^)' + pushClass + '(\\s|$)');
+        DOMObject.classList.remove(popClass);
+    else if (hasClass(DOMObject, popClass)) {
+        var reg = new RegExp('(\\s|^)' + popClass + '(\\s|$)');
         DOMObject.className=DOMObject.className.replace(reg, ' ');
     }
 }
@@ -154,11 +185,14 @@ function Menu(name, menu) {
             this.children.push(new Action(name, action));
     
         if (children = item.children) {
-            item = new Menu(name, children, makeMenu);
+            item = new Menu(name, children);
             item.parentMenu = this;
             this.children.push(item);
         }
     }
+
+    console.log('Menu Constructor:');
+    console.log(this.children);
 }
 
 Menu.prototype.handleEvent = function(e) {

@@ -25,26 +25,36 @@ nav {
     display: block;
     position: relative;
     white-space: nowrap;
+    height: 25px;
+    width: 500px;
 
     transition: 0.2s width ease;
 }
 
 nav span {
     position: absolute;
-    display: inline
+    display: inline;
     left: 0;
+    top: 50%;
+    transform: translate(0,-50%);
 }
 
 /* THE KEY TO GOOD TRANSITIONS: */
 /* THE ABILITY TO TURN OFF TRANSITIONS */
 nav span.transition {
-    transition: 0.2s left ease,
-                0.2s opacity ease;
+    transition: 0.15s left ease,
+                0.15s opacity ease;
 }
 
 nav span.middle { left: 0; }
-nav span.left { left: -20px; }
-nav span.right { left: 20px; }
+nav span.left { left: -40px; }
+nav span.right { left: 40px; }
+
+nav span.left,
+nav span.right {
+    opacity: 0;
+    pointer-events: none;
+}
 
 nav span a {
     display: inline;
@@ -69,8 +79,8 @@ nav div {
     top: 50%;
     transform: translate(0, -50%);
     
-    transition: 0.2s left ease,
-                0.2s opacity ease;
+    transition: 0.15s left ease,
+                0.15s opacity ease;
 }
 
 nav div.hidden {
