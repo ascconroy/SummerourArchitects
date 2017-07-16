@@ -1,9 +1,5 @@
 function Nav(sel, menu) {
 
-    this.options = {
-        animationLength: 200
-    };
-
     this.rootMenu = new Menu("root", menu); 
     this.currentMenu = this.rootMenu; 
 
@@ -35,8 +31,8 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
     // Spans[0] -> PARENT MENU (LEFT)
     // Spans[1] -> CURRENT MENU (MIDDLE)
     // Spans[2] -> BLANK (NEW MENU) (RIGHT) 
-   
-    console.log(newMenu);
+
+	var width;
 
     if (deeper) {
         this.removeClass(this.Spans[0], "transition");
@@ -45,6 +41,8 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
 
         this.clearMenu(this.Spans[2]);
         this.fillMenu(this.Spans[2], newMenu);
+		
+		width = this.Spans[2].getBoundingClientRect().width;
 
         this.swapClass(this.Spans[0], "left", "right");
         this.swapClass(this.Spans[1], "middle", "left");
@@ -64,6 +62,8 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
         if (newMenu.parentMenu)
             this.fillMenu(this.Spans[2], newMenu.parentMenu);
 
+		width = this.Spans[0].getBoundingClientRect().width;
+
         this.swapClass(this.Spans[0], "left", "middle");
         this.swapClass(this.Spans[1], "middle", "right");
         this.swapClass(this.Spans[2], "right", "left");
@@ -73,10 +73,8 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
         this.Spans[0] = this.Spans[2];
         this.Spans[2] = temp; 
     }
-    
-    console.log(this.Spans);
 
-    var width = this.Spans[0].getBoundingClientRect().width;
+    var width = 
     this.Container.style.width = width+"px";
 
     // Make Back Button

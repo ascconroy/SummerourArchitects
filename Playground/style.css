@@ -42,8 +42,8 @@ nav span {
 /* THE KEY TO GOOD TRANSITIONS: */
 /* THE ABILITY TO TURN OFF TRANSITIONS */
 nav span.transition {
-    transition: 0.15s left ease,
-                0.15s opacity ease;
+    transition: 0.2s left ease,
+                0.2s opacity ease;
 }
 
 nav span.middle { left: 0; }
@@ -61,6 +61,10 @@ nav span a {
     display: inline;
     cursor: pointer;
     margin-right: 20px;
+	-webkit-user-select: none;  
+	-moz-user-select: none;    
+	-ms-user-select: none;      
+	user-select: none;
 }
 
 nav span a:last-child {
@@ -80,8 +84,8 @@ nav div {
     top: 50%;
     transform: translate(0, -50%);
     
-    transition: 0.15s left ease,
-                0.15s opacity ease;
+    transition: 0.2s left ease,
+                0.2s opacity ease;
 }
 
 nav div.hidden { left: -10px; }
