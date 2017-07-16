@@ -51,7 +51,8 @@ nav span.left { left: -40px; }
 nav span.right { left: 40px; }
 
 nav span.left,
-nav span.right {
+nav span.right,
+nav div.hidden {
     opacity: 0;
     pointer-events: none;
 }
@@ -83,7 +84,4 @@ nav div {
                 0.15s opacity ease;
 }
 
-nav div.hidden {
-    left: -10px;
-    opacity: 0;
-}
+nav div.hidden { left: -10px; }
