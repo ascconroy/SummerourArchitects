@@ -1,8 +1,8 @@
-Summerour and Associates
-2017 Website Redesign
+#Summerour and Associates
+##2017 Website Redesign
 
-EXTERNAL LINKS:
+#EXTERNAL LINKS:
 http://www.olsonkundigarchitects.com/
 
-TODO:
+#TODO:
 Design horizontal content slider with variable element width.
