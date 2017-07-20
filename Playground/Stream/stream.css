@@ -1,0 +1,45 @@
+#stream {
+    text-align: center;   
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: 0 5px;
+}
+
+#stream span {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px 0;
+
+    transition: 0.2s width ease,
+                0.2s border ease,
+}
+
+#stream span:last-child {
+    margin-right: 0;
+}
+
+#stream span.current {
+    margin: 0;
+    margin-left: -5px;
+    padding: 10px 3px;
+
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+#stream span div {
+    margin-right: 5px; 
+    display: inline-block;
+
+    width: 40px;
+    height: 60px;
+
+    background: red;
+    opacity: 0.5;
+}
+
+#stream span.current div { opacity: 1; }
+
+#stream span div:last-child {
+    margin-right: 0px;
+}

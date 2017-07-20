@@ -23,67 +23,6 @@ function Nav(sel, menu) {
 
     this.makeMenu(this.rootMenu, 1);
 
-    // HELPER CLASSES
-    function NavItem(name) {
-        this.tag = 'a';
-        this.name = name;
-
-        this.DOMObject = document.createElement(this.tag);
-        this.DOMObject.innerHTML = name;
-    }
-
-    NavItem.prototype.setIcon = function(src) {
-        this.DOMObject.innerHTML = "";
-    }
-
-    Menu.prototype = new NavItem();
-    function Menu(name, menu) {
-        NavItem.call(this, name);
-
-        // new Link("INVALID MENU", "")
-
-        this.children = []; // Array of NavItem
-        this.parentMenu = null;
-
-        for (var i = 0; i < menu.length; i++) {
-
-            var item = menu[i];
-            name = item.name;
-
-            var href;
-            var action;
-            var children;
-
-            if (href = item.href)
-                this.children.push(new Link(name, href)); 
-        
-            if (action = item.action)
-                this.children.push(new Action(name, action));
-        
-            if (children = item.children) {
-                item = new Menu(name, children);
-                item.parentMenu = this;
-                this.children.push(item);
-            }
-        }
-    }
-
-    Menu.prototype.handleEvent = function(e) {
-        this.nav.makeMenu(this, 1);
-    }
-
-    Link.prototype = new NavItem();
-    function Link(name, href) {
-        NavItem.call(this, name);
-        this.DOMObject.href = href;
-    }
-
-    Action.prototype = new NavItem();
-    function Action(name, action) {
-        NavItem.call(this, name);
-
-        this.DOMObject.addEventListener("click", action, false);
-    }
 }
 
 // Create menu
@@ -209,6 +148,68 @@ Nav.prototype.removeClass = function(DOMObject, popClass) {
 Nav.prototype.handleEvent = function(e) {
     this.makeMenu(this.currentMenu.parentMenu, 0);
 }
+
+    // HELPER CLASSES
+    function NavItem(name) {
+        this.tag = 'a';
+        this.name = name;
+
+        this.DOMObject = document.createElement(this.tag);
+        this.DOMObject.innerHTML = name;
+    }
+
+    NavItem.prototype.setIcon = function(src) {
+        this.DOMObject.innerHTML = "";
+    }
+
+    Menu.prototype = new NavItem();
+    function Menu(name, menu) {
+        NavItem.call(this, name);
+
+        // new Link("INVALID MENU", "")
+
+        this.children = []; // Array of NavItem
+        this.parentMenu = null;
+
+        for (var i = 0; i < menu.length; i++) {
+
+            var item = menu[i];
+            name = item.name;
+
+            var href;
+            var action;
+            var children;
+
+            if (href = item.href)
+                this.children.push(new Link(name, href)); 
+        
+            if (action = item.action)
+                this.children.push(new Action(name, action));
+        
+            if (children = item.children) {
+                item = new Menu(name, children);
+                item.parentMenu = this;
+                this.children.push(item);
+            }
+        }
+    }
+
+    Menu.prototype.handleEvent = function(e) {
+        this.nav.makeMenu(this, 1);
+    }
+
+    Link.prototype = new NavItem();
+    function Link(name, href) {
+        NavItem.call(this, name);
+        this.DOMObject.href = href;
+    }
+
+    Action.prototype = new NavItem();
+    function Action(name, action) {
+        NavItem.call(this, name);
+
+        this.DOMObject.addEventListener("click", action, false);
+    }
 
 window.onload = function() {
     var menu = [
