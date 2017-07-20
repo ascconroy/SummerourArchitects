@@ -1,5 +1,4 @@
 # Summerour and Associates Architects
-### 2017 Website Redesign
 
 This is the repository for the redesigned portfolio of [Summerour Architects](http://summerour.net)
 
