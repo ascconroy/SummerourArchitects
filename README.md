@@ -1,8 +1,12 @@
-#Summerour and Associates
-##2017 Website Redesign
+# Summerour and Associates Architects
+### 2017 Website Redesign
 
-#EXTERNAL LINKS:
-http://www.olsonkundigarchitects.com/
+This is the repository for the redesigned portfolio of [Summerour Architects](http://summerour.net)
 
-#TODO:
-Design horizontal content slider with variable element width.
+This site is built with [Hexo](http://hexo.io)
+
+## TODO:
+- Finish Stream, image browser plugin
+- Build Hexo site structure
+- Build frontend for Hexo CMS
+- Build Node plugin to resize image thumbnails
