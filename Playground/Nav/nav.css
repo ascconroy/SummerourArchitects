@@ -21,6 +21,8 @@ nav {
 /* TODO: Consolidate transitions and common styles */
 /* TODO: MAKE YOUR HTML ELEMENTS MORE DESCRIPTIVE: S-E-O!! */
 
+nav ul, nav li { display: none; }
+
 nav {
     display: block;
     position: relative;

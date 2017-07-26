@@ -1,28 +1,49 @@
-function Nav(sel, menu) {
+const TAG_MENU = "span";
+const TAG_BACK = "div";
 
-    this.rootMenu = new Menu("root", menu); 
-    this.currentMenu = this.rootMenu; 
+const CLASS_LEFT = "left";
+const CLASS_RIGHT = "right";
+const CLASS_MIDDLE = "middle";
+const CLASS_HIDDEN = "hidden";
+const CLASS_TRANSITION = "transition"
+
+const ROOT = "root"; 
+
+function Nav(sel, callbacks) { 
 
     this.Container = document.querySelector(sel);
+
+    var menu = [];
+
+    // Generate menu object
+    for (var i = 0; i < this.Container.children.length; i++) {
+        var item = this.Container.children[i]; 
+        
+        if (item.children) {
+        
+        }
+    }
+
+    this.rootMenu = new Menu(ROOT, menu); 
+    this.currentMenu = this.rootMenu; 
 
     this.Spans = [
         this.objectWithClass(
             this.createDOMObject(this.Container,
-            "span"), "left"),
+            TAG_MENU), CLASS_LEFT),
         this.objectWithClass(
             this.createDOMObject(this.Container,
-            "span"), "middle"),
+            TAG_MENU), CLASS_MIDDLE),
         this.objectWithClass(
             this.createDOMObject(this.Container,
-            "span"), "right")
+            TAG_MENU), CLASS_RIGHT)
     ];
 
     this.BackButton = this.objectWithClass(
             this.createDOMObject(this.Container,
-            "div"), "hidden");
+            "div"), CLASS_HIDDEN);
 
     this.makeMenu(this.rootMenu, 1);
-
 }
 
 // Create menu
@@ -36,18 +57,18 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
 	var width;
 
     if (deeper) {
-        this.removeClass(this.Spans[0], "transition");
-        this.addClass(this.Spans[1], "transition");
-        this.addClass(this.Spans[2], "transition");
+        this.removeClass(this.Spans[0], CLASS_TRANSITION);
+        this.addClass(this.Spans[1], CLASS_TRANSITION);
+        this.addClass(this.Spans[2], CLASS_TRANSITION);
 
         this.clearMenu(this.Spans[2]);
         this.fillMenu(this.Spans[2], newMenu);
 		
 		width = this.Spans[2].getBoundingClientRect().width;
 
-        this.swapClass(this.Spans[0], "left", "right");
-        this.swapClass(this.Spans[1], "middle", "left");
-        this.swapClass(this.Spans[2], "right", "middle");
+        this.swapClass(this.Spans[0], CLASS_LEFT, CLASS_RIGHT);
+        this.swapClass(this.Spans[1], CLASS_MIDDLE, CLASS_LEFT);
+        this.swapClass(this.Spans[2], CLASS_RIGHT, CLASS_MIDDLE);
 
         var temp = this.Spans[1];
         this.Spans[1] = this.Spans[2]; 
@@ -56,18 +77,18 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
 
     } else {
 
-        this.addClass(this.Spans[0], "transition");
-        this.addClass(this.Spans[1], "transition");
-        this.removeClass(this.Spans[2], "transition");
+        this.addClass(this.Spans[0], CLASS_TRANSITION);
+        this.addClass(this.Spans[1], CLASS_TRANSITION);
+        this.removeClass(this.Spans[2], CLASS_TRANSITION);
 
         if (newMenu.parentMenu)
             this.fillMenu(this.Spans[2], newMenu.parentMenu);
 
 		width = this.Spans[0].getBoundingClientRect().width;
 
-        this.swapClass(this.Spans[0], "left", "middle");
-        this.swapClass(this.Spans[1], "middle", "right");
-        this.swapClass(this.Spans[2], "right", "left");
+        this.swapClass(this.Spans[0], CLASS_LEFT, CLASS_MIDDLE);
+        this.swapClass(this.Spans[1], CLASS_MIDDLE, CLASS_RIGHT);
+        this.swapClass(this.Spans[2], CLASS_RIGHT, CLASS_LEFT);
        
         var temp = this.Spans[1];
         this.Spans[1] = this.Spans[0];
@@ -82,11 +103,11 @@ Nav.prototype.makeMenu = function(newMenu, deeper) {
     if (newMenu.parentMenu) {
         // Show back button
         this.BackButton.addEventListener("click", this, false);
-        this.removeClass(this.BackButton, "hidden");
+        this.removeClass(this.BackButton, CLASS_HIDDEN);
     } else {
         // Hide back button
         this.BackButton.removeEventListener("click", this, false);
-        this.addClass(this.BackButton, "hidden");
+        this.addClass(this.BackButton, CLASS_HIDDEN);
     }
 
     this.currentMenu = newMenu;
