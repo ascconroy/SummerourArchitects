@@ -1,0 +1,15 @@
+{
+  "name": "summerour-architects",
+  "version": "1.0.0",
+  "description": "Website for Summerour Architects in Atlanta - summerour.net",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Kolsby - jmkl.co",
+  "license": "ISC"
+}
