@@ -4,7 +4,7 @@ This project uses [Sketch](https://www.sketchapp.com)
 
 ## Latest Export
 
-[layout](../blob/design-master/)
+[Project (Short)](../blob/design-master/Design/Layouts/default.png)
 
 ## Site Structure
 
