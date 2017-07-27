@@ -13,15 +13,7 @@
 
 </head>
 <body>
-<nav class="right">
-    <ul data-title="Collections">
-        <li data-action="sortResidential">Residential</li>
-        <li data-action="sortMixedUse">Mixed Use</li>
-        <li data-action="sortAll">All</li>
-    </ul>
-    <li data-href="Press">Press</li>
-    <li data-href="">Contact</li>
-</nav>
+<nav class="right"></nav>
 <div id="stream">
     <span class="project">
         <div class="thumb" data-color="f26a66"></div>
@@ -60,5 +52,105 @@
         <div class="thumb"></div>
     </span>
 </div>
+<script type="text/javascript">
+var nav = new Nav('nav', 
+    [
+        {
+            name: 'Collections',
+            children: [
+                {
+                    name: 'Industrial',
+                    href: '/'
+                },
+                {
+                    name: 'Residential',
+                    href: '/'
+                },
+                {
+                    name: 'Commercial',
+                    href: '/'
+                }
+            ]
+        },
+        {
+            name: 'Test',
+            children: [
+                {
+                    name: 'One',
+                    children: [
+                        {
+                            name: 'These',
+                            href: '/'
+                        },
+                        {
+                            name: 'Are',
+                            href: '/'
+                        },
+                        {
+                            name: 'All',
+                            href: '/'
+                        },
+                        {
+                            name: 'More Options',
+                            children: [
+                                {
+                                    name: 'Third Level',
+                                    href: '/'
+                                },
+                                {
+                                    name: 'Wow so deep',
+                                    href: '/'
+                                },
+                                {
+                                    name: 'Very OOP!',
+                                    href: '/'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'Two',
+                    children: [
+                        {
+                            name: 'Please',
+                            href: '/'
+                        },
+                        {
+                            name: 'Help',
+                            href: '/'
+                        },
+                        {
+                            name: 'Me Pleaes',
+                            href: '/'
+                        }
+                    ]
+                },
+                {
+                    name: 'Three',
+                    children: [
+                        {
+                            name: 'Wow',
+                            href: '/'
+                        },
+                        {
+                            name: 'Huge',
+                            href: '/'
+                        },
+                        {
+                            name: 'Menu',
+                            href: '/'
+                        }
+                    ]
+                },
+            ]
+        },
+        {
+            name: 'Press',
+            href: '/'
+        }
+    ]
+);
+</script>
 </body>
 </html>

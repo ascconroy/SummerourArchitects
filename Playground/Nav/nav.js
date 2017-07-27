@@ -9,20 +9,9 @@ const CLASS_TRANSITION = "transition"
 
 const ROOT = "root"; 
 
-function Nav(sel, callbacks) { 
+function Nav(sel, menu) { 
 
     this.Container = document.querySelector(sel);
-
-    var menu = [];
-
-    // Generate menu object
-    for (var i = 0; i < this.Container.children.length; i++) {
-        var item = this.Container.children[i]; 
-        
-        if (item.children) {
-        
-        }
-    }
 
     this.rootMenu = new Menu(ROOT, menu); 
     this.currentMenu = this.rootMenu; 
@@ -170,164 +159,64 @@ Nav.prototype.handleEvent = function(e) {
     this.makeMenu(this.currentMenu.parentMenu, 0);
 }
 
-    // HELPER CLASSES
-    function NavItem(name) {
-        this.tag = 'a';
-        this.name = name;
+// HELPER CLASSES
+function NavItem(name) {
+    this.tag = 'a';
+    this.name = name;
 
-        this.DOMObject = document.createElement(this.tag);
-        this.DOMObject.innerHTML = name;
-    }
+    this.DOMObject = document.createElement(this.tag);
+    this.DOMObject.innerHTML = name;
+}
 
-    NavItem.prototype.setIcon = function(src) {
-        this.DOMObject.innerHTML = "";
-    }
+NavItem.prototype.setIcon = function(src) {
+    this.DOMObject.innerHTML = "";
+}
 
-    Menu.prototype = new NavItem();
-    function Menu(name, menu) {
-        NavItem.call(this, name);
+Menu.prototype = new NavItem();
+function Menu(name, menu) {
+    NavItem.call(this, name);
 
-        // new Link("INVALID MENU", "")
+    // new Link("INVALID MENU", "")
 
-        this.children = []; // Array of NavItem
-        this.parentMenu = null;
+    this.children = []; // Array of NavItem
+    this.parentMenu = null;
 
-        for (var i = 0; i < menu.length; i++) {
+    for (var i = 0; i < menu.length; i++) {
 
-            var item = menu[i];
-            name = item.name;
+        var item = menu[i];
+        name = item.name;
 
-            var href;
-            var action;
-            var children;
+        var href;
+        var action;
+        var children;
 
-            if (href = item.href)
-                this.children.push(new Link(name, href)); 
-        
-            if (action = item.action)
-                this.children.push(new Action(name, action));
-        
-            if (children = item.children) {
-                item = new Menu(name, children);
-                item.parentMenu = this;
-                this.children.push(item);
-            }
+        if (href = item.href)
+            this.children.push(new Link(name, href)); 
+    
+        if (action = item.action)
+            this.children.push(new Action(name, action));
+    
+        if (children = item.children) {
+            item = new Menu(name, children);
+            item.parentMenu = this;
+            this.children.push(item);
         }
     }
+}
 
-    Menu.prototype.handleEvent = function(e) {
-        this.nav.makeMenu(this, 1);
-    }
+Menu.prototype.handleEvent = function(e) {
+    this.nav.makeMenu(this, 1);
+}
 
-    Link.prototype = new NavItem();
-    function Link(name, href) {
-        NavItem.call(this, name);
-        this.DOMObject.href = href;
-    }
+Link.prototype = new NavItem();
+function Link(name, href) {
+    NavItem.call(this, name);
+    this.DOMObject.href = href;
+}
 
-    Action.prototype = new NavItem();
-    function Action(name, action) {
-        NavItem.call(this, name);
+Action.prototype = new NavItem();
+function Action(name, action) {
+    NavItem.call(this, name);
 
-        this.DOMObject.addEventListener("click", action, false);
-    }
-
-window.onload = function() {
-    var menu = [
-        {
-            name: 'Collections',
-            children: [
-                {
-                    name: 'Industrial',
-                    href: '/'
-                },
-                {
-                    name: 'Residential',
-                    href: '/'
-                },
-                {
-                    name: 'Commercial',
-                    href: '/'
-                }
-            ]
-        },
-        {
-            name: 'Test',
-            children: [
-                {
-                    name: 'One',
-                    children: [
-                        {
-                            name: 'These',
-                            href: '/'
-                        },
-                        {
-                            name: 'Are',
-                            href: '/'
-                        },
-                        {
-                            name: 'All',
-                            href: '/'
-                        },
-                        {
-                            name: 'More Options',
-                            children: [
-                                {
-                                    name: 'Third Level',
-                                    href: '/'
-                                },
-                                {
-                                    name: 'Wow so deep',
-                                    href: '/'
-                                },
-                                {
-                                    name: 'Very OOP!',
-                                    href: '/'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    name: 'Two',
-                    children: [
-                        {
-                            name: 'Please',
-                            href: '/'
-                        },
-                        {
-                            name: 'Help',
-                            href: '/'
-                        },
-                        {
-                            name: 'Me Pleaes',
-                            href: '/'
-                        }
-                    ]
-                },
-                {
-                    name: 'Three',
-                    children: [
-                        {
-                            name: 'Wow',
-                            href: '/'
-                        },
-                        {
-                            name: 'Huge',
-                            href: '/'
-                        },
-                        {
-                            name: 'Menu',
-                            href: '/'
-                        }
-                    ]
-                },
-            ]
-        },
-        {
-            name: 'Press',
-            href: '/'
-        }
-    ];
-    var nav = new Nav("nav", menu);
+    this.DOMObject.addEventListener("click", action, false);
 }
