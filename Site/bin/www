@@ -4,7 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+const PORT_NUMBER = 8080;
+
+var app = require('../app'); // require(<npm .js file>)
 var debug = require('debug')('site:server');
 var http = require('http');
 
@@ -12,7 +14,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || PORT_NUMBER.toString());
 app.set('port', port);
 
 /**

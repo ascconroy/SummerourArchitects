@@ -1,16 +1,22 @@
 {
-  "name": "site",
-  "version": "0.0.0",
+  "name": "Summerour Architects",
+  "version": "1.0.0",
+  "description": "Website redesign for Summerour Architects - summerour.net",
   "private": true,
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "node app.js"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "jade": "~1.11.0",
     "morgan": "~1.8.1",
     "serve-favicon": "~2.4.2"
-  }
+  },
+  "author": "James Kolsby - jmkl.co",
+  "license": "Copyright (C) 2019 Summerour and Associates Architects"
 }
